@@ -28,24 +28,47 @@ class LoginCest
 }
 ```
 
-This test can be performed either by a "real" browser (Chrome or Firefox) or by PhpBrowser.
-
 If you're new to acceptance testing with Codeception, the quickest way to get you up and running is by using the Chrome browser together with ChromeDriver:
 
 1. Install [Chrome Driver](https://sites.google.com/a/chromium.org/chromedriver/downloads)
+1. Set up your `acceptance.suite.yml`:
+    ```yml
+    modules:
+        enabled:
+            - WebDriver:
+                url: 'http://localhost/'
+                browser: chrome
+                port: 9515
+    ```
+1. Launch ChromeDriver: `chromedriver --url-base=/wd/hub`
+1. Run the test: `php codecept run acceptance`
 
+## WebDriver or PhpBrowser?
 
+Any Codeception Acceptance test can be performed by either a "real" browser (Chrome or Firefox) or by a browser simulation called "PhpBrowser". Both options have pros and cons:
 
-| | PhpBrowser | WebDriver |
+| | WebDriver | PhpBrowser |
 | --- | --- | --- |
-| Browser Engine | Guzzle + Symfony BrowserKit | Chrome or Firefox |
-| JavaScript | No | Yes |
-| `see`/`seeElement` checks if… | …text is present in the HTML source | …text is actually visible to the user |
-| Read HTTP response headers | Yes | No |
-| System requirements | PHP with [cURL extension](http://php.net/manual/book.curl.php) | <ul><li>Selenium Standalone Server</li><li>Chrome or Firefox</li></ul> |
-| Speed | Fast | Slow |
+| Browser Engine | Chrome or Firefox | Guzzle + Symfony BrowserKit |
+| JavaScript | Yes | No |
+| `see()` checks if… | …text is actually visible to the user | …text is present in the HTML source |
+| Read HTTP response headers | No | Yes |
+| System requirements | See below | PHP with [cURL extension](http://php.net/manual/book.curl.php) |
+| Speed | Slow | Fast |
 
-We will start writing our first acceptance tests with PhpBrowser.
+## WebDriver
+
+| | Selenium Server | ChromeDriver directly | PhantomJS |
+| --- | --- | --- | --- |
+| System requirements | <ul><li>Selenium Standalone Server</li><li>ChromeDriver and/or GeckoDriver</li><li>Chrome and/or Firefox</li></ul> | <ul><li>ChromeDriver</li><li>Chrome</li></ul> | PhantomJS |
+| Actively maintained software | Yes | Yes | **No** |
+| Visual feedback (i.e. browser window) | Yes | Yes | No |
+| SmartWait available | Yes | No | No |
+| Details | [Installation Instructions](http://codeception.com/docs/modules/WebDriver#Selenium) | [Installation Instructions](http://codeception.com/docs/modules/WebDriver#ChromeDriver) | [Installation Instructions](http://codeception.com/docs/modules/WebDriver#PhantomJS) |
+
+In general, we recommend Selenium Server. That's one additional installation (compared to ChromeDriver directly), but this does pay off in the long run.
+
+///////////////////////////////////////////// TODO: /////////////////////////////////////////////////////////
 
 ## PhpBrowser
 
