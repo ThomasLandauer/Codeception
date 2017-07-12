@@ -1,30 +1,40 @@
 # Acceptance Testing
 
-Acceptance testing can be performed by a non-technical person. That person can be your tester, manager or even client.
+Acceptance tests check the website from a user's perspective, through a (real or simulated) browser.
+They can be performed by a non-technical person. That person can be your tester, manager or even client.
 If you are developing a web-application (and you probably are) the tester needs nothing more than a web browser
-to check that your site works correctly. You can reproduce an acceptance tester's actions in scenarios
+to check that your site is working correctly. You can reproduce an acceptance tester's actions in scenarios
 and run them automatically. Codeception keeps tests clean and simple
 as if they were recorded from the words of an actual acceptance tester.
 
-It makes no difference what (if any) CMS or framework is used on the site. You can even test sites created with different
-languages, like Java, .NET, etc. It's always a good idea to add tests to your website.
-At least you will be sure that site features work after the latest changes were made.
+It makes no difference what (if any) CMS or framework is used on the site. You can even test sites created with other
+languages, like Java, .NET, etc. It is always a good idea to add tests to your website.
+At least you will be sure that all site features are working after the latest changes were made.
 
-## Sample Scenario
-
-Let's say the first test you would want to run, would be signing in.
-In order to write such a test, we still require basic knowledge of PHP and HTML:
+Here's an example, checking a login process:
 
 ```php
 <?php
-$I->amOnPage('/login');
-$I->fillField('username', 'davert');
-$I->fillField('password', 'qwerty');
-$I->click('LOGIN');
-$I->see('Welcome, Davert!');
+class LoginCest
+{
+    public function tryLogin (AcceptanceTester $I)
+    {
+        $I->amOnPage('/login');
+        $I->fillField('username', 'davert');
+        $I->fillField('password', 'qwerty');
+        $I->click('LOGIN');
+        $I->see('Welcome, Davert!');
+    }
+}
 ```
 
-**This scenario can be performed either by PhpBrowser or by a "real" browser through Selenium WebDriver**.
+This test can be performed either by a "real" browser (Chrome or Firefox) or by PhpBrowser.
+
+If you're new to acceptance testing with Codeception, the quickest way to get you up and running is by using the Chrome browser together with ChromeDriver:
+
+1. Install [Chrome Driver](https://sites.google.com/a/chromium.org/chromedriver/downloads)
+
+
 
 | | PhpBrowser | WebDriver |
 | --- | --- | --- |
