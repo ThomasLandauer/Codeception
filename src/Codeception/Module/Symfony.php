@@ -454,6 +454,8 @@ class Symfony extends Framework implements DoctrineProvider, PartedModule
     /**
      * Checks if the desired number of emails was sent.
      * If no argument is provided then at least one email must be sent to satisfy the check.
+     * This works even if actual email delivery is disabled through `disable_delivery: true`
+     * (in `swiftmailer.yaml`) and/or `MAILER_URL=null://localhost` (in `.env`).
      *
      * ``` php
      * <?php
